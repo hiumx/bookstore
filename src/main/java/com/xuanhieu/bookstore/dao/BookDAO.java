@@ -99,4 +99,34 @@ public class BookDAO {
         }
     }
     
+    public void update(Book newBook) {
+        PreparedStatement stm;
+        try {
+            String sql = "UPDATE Book SET Title = ?, Author = ?, Edition = ?, PublishedYear = ? WHERE Isbn = ?";
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, newBook.getTitle());
+            stm.setString(2, newBook.getAuthor());
+            stm.setInt(3, newBook.getEdition());
+            stm.setInt(4, newBook.getPublishedYear());
+            stm.setString(5, newBook.getIsbn());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public boolean delete(String isbn) {
+        PreparedStatement stm;
+        try {
+            String sql = "DELETE FROM Book WHERE Isbn = ?";
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, isbn);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);  
+        }
+        return false;
+    }   
+    
 }

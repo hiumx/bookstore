@@ -4,8 +4,10 @@ package com.xuanhieu.bookstore.resource.v3;
 import com.xuanhieu.bookstore.dao.BookDAO;
 import com.xuanhieu.bookstore.model.Book;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -45,6 +47,28 @@ public class BookResource {
         dao.add(book);
         URI url = new URI(ui.getBaseUri() + "/v3/books/" + book.getIsbn());
         return Response.created(url).build();
+    }
+    
+    @PUT
+    @Path("update")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Book updateABook(Book newBook) {
+        for (Book book : getAll()) {
+            if(book.getIsbn().equalsIgnoreCase(newBook.getIsbn())) {
+                dao.update(newBook);
+                return newBook;
+            }
+        }
+        return null;
+    }
+    
+    @DELETE
+    @Path("delete/{isbn}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean deleteABook(@PathParam("isbn") String isbn) {
+        return dao.delete(isbn);
     }
     
 }
