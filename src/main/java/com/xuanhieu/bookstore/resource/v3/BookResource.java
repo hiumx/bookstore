@@ -50,7 +50,6 @@ public class BookResource {
     }
     
     @PUT
-    @Path("update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Book updateABook(Book newBook) {
@@ -64,7 +63,7 @@ public class BookResource {
     }
     
     @DELETE
-    @Path("delete/{isbn}")
+    @Path("{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean deleteABook(@PathParam("isbn") String isbn) {
